@@ -9,6 +9,9 @@ import NewsSection from "./pages/NewsSection";
 import Committee from "./pages/Committee";
 import Family from "./pages/Family";
 import Gallery from "./pages/Gallery";
+import KendrioCommittee from "./pages/KendrioCommittee";
+import VibagioCommittee from "./pages/VivagioCommittee";
+import DistrictCommittee from "./pages/District";
 
 
 const router = createBrowserRouter([
@@ -33,13 +36,26 @@ const router = createBrowserRouter([
         element: <Committee />,
       },
       {
+        path: "committee/kendrio",
+        element: <KendrioCommittee />,
+      },
+      {
+        path: "committee/vivagio",
+        element: <VibagioCommittee />,
+      },
+      {
+        path: "committee/district",
+        element: <DistrictCommittee />,
+      },
+      {
         path: 'family',
         element: <Family />,
       },
       {
         path: "gallery",
         element: <Gallery />,
-      }
+      },
+
     ],
   },
  
