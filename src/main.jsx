@@ -12,6 +12,8 @@ import Gallery from "./pages/Gallery";
 import KendrioCommittee from "./pages/KendrioCommittee";
 import VibagioCommittee from "./pages/VivagioCommittee";
 import DistrictCommittee from "./pages/District";
+import Governance from "./pages/Governance";
+import Documents from "./pages/Documents";
 
 
 const router = createBrowserRouter([
@@ -55,7 +57,14 @@ const router = createBrowserRouter([
         path: "gallery",
         element: <Gallery />,
       },
-
+      {
+        path: "documents",
+        element: <Documents />,
+      },
+      {
+        path: "governance",
+        element: <Governance />,
+      }
     ],
   },
  

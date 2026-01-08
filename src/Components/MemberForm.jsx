@@ -1,398 +1,235 @@
-// import { useState, useRef } from "react";
-// import html2canvas from "html2canvas";
-// import jsPDF from "jspdf";
-
-// export default function MembershipForm() {
-//   const [form, setForm] = useState({});
-//   const [signaturePreview, setSignaturePreview] = useState(null);
-//   const fileInputRef = useRef(null);
-
-//   const openSignaturePicker = () => {
-//     fileInputRef.current?.click();
-//   };
-
-//   const removeSignature = () => {
-//     setForm({ ...form, signature: null });
-//     setSignaturePreview(null);
-//     if (fileInputRef.current) fileInputRef.current.value = null;
-//   };
-
-//   const handleChange = (e) => {
-//     const { name, type, value, files } = e.target;
-
-//     if (type === "file") {
-//       const file = files?.[0];
-//       setForm({ ...form, [name]: file });
-//       setSignaturePreview(file ? URL.createObjectURL(file) : null);
-//       return;
-//     }
-
-//     setForm({ ...form, [name]: value });
-//   };
-
-//   const submitForm = async (e) => {
-//     e.preventDefault();
-
-//     try {
-//       // ===== Printable Node =====
-//       const node = document.createElement("div");
-//       node.style.width = "800px";
-//       node.style.background = "#ffffff";
-//       node.style.padding = "20px";
-//       node.style.display = "flex";
-//       node.style.fontFamily = "sans-serif";
-//       node.style.color = "#000000";
-
-//       // Left ribbon
-//       const ribbon = document.createElement("div");
-//       ribbon.style.width = "36px";
-//       ribbon.style.marginRight = "14px";
-//       ribbon.style.background =
-//         "linear-gradient(to bottom, #dc2626, #ffffff 35%, #1e3a8a)";
-//       node.appendChild(ribbon);
-
-//       const content = document.createElement("div");
-//       content.style.flex = "1";
-
-//       // Header
-//       const header = document.createElement("div");
-//       header.style.display = "flex";
-//       header.style.justifyContent = "space-between";
-//       header.style.marginBottom = "10px";
-//       header.innerHTML = `
-//         <div>Ref: ${form.ref || ""}</div>
-//         <div>Date: ${form.date || ""}</div>
-//       `;
-//       content.appendChild(header);
-
-//       // Title
-//       const title = document.createElement("h2");
-//       title.innerText = "অভিযোগকারী তথ্য বিবরণী";
-//       title.style.textAlign = "center";
-//       title.style.textDecoration = "underline";
-//       title.style.marginBottom = "14px";
-//       content.appendChild(title);
-
-//       // Helper
-//       const row = (label, value) => {
-//         const p = document.createElement("p");
-//         p.innerHTML = `<strong>${label} :</strong> ${value || ""}`;
-//         p.style.marginBottom = "6px";
-//         content.appendChild(p);
-//       };
-
-//       row("সংগঠীত", form.org);
-//       row("মাধ্যম", form.media);
-//       row("আবেদনকারী", form.applicant);
-//       row("স্থায়ী ঠিকানা", form.permanent);
-//       row("বর্তমান ঠিকানা", form.present);
-//       row("ফোন নম্বর", form.phone);
-//       row("জাতীয়তা", form.nationality);
-//       row("অভিযুক্ত/বিবাদীর নাম", form.accused);
-//       row("বর্তমান ঠিকানা (বিবাদীর)", form.accused_present);
-//       row("স্থায়ী ঠিকানা (বিবাদীর)", form.accused_permanent);
-//       row("ফোন নম্বর (বিবাদীর)", form.accused_phone);
-//       row("জাতীয়তা (বিবাদীর)", form.accused_nationality);
-
-//       row("অভিযোগের কারণ", form.reason);
-//       row("আইনী সহায়তার ধরন", form.help);
-//       row("পূর্বের মামলা / সালিশ", form.previous);
-//       row("সংক্ষিপ্ত বিবরণ", form.incident);
-
-//       // Signature
-//       if (signaturePreview) {
-//         const sigWrap = document.createElement("div");
-//         sigWrap.style.textAlign = "right";
-//         sigWrap.style.marginTop = "20px";
-
-//         const label = document.createElement("div");
-//         label.innerText = "আবেদনকারীর স্বাক্ষর";
-//         label.style.marginBottom = "6px";
-
-//         const img = document.createElement("img");
-//         img.src = signaturePreview;
-//         img.style.maxWidth = "180px";
-
-//         sigWrap.appendChild(label);
-//         sigWrap.appendChild(img);
-//         content.appendChild(sigWrap);
-//       }
-
-//       node.appendChild(content);
-//       document.body.appendChild(node);
-
-//       // ===== Canvas =====
-//       const canvas = await html2canvas(node, {
-//         scale: 2,
-//         backgroundColor: "#ffffff",
-//       });
-
-//       const imgData = canvas.toDataURL("image/png");
-
-//       // ===== PDF =====
-//       const pdf = new jsPDF("p", "pt", "a4");
-//       const pdfWidth = pdf.internal.pageSize.getWidth();
-//       const imgProps = pdf.getImageProperties(imgData);
-//       const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-//       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-//       pdf.save("membership-form.pdf");
-
-//       document.body.removeChild(node);
-//     } catch (err) {
-//       console.error("PDF generation failed", err);
-//     }
-//   };
-
-//   return (
-//     <div className="min-h-screen flex justify-center items-center bg-gray-100 py-10">
-//       <div className="w-[900px] bg-white shadow-xl rounded-lg px-10 py-8">
-//         <h2 className="text-xl font-bold text-center underline mb-6">
-//           অভিযোগকারী তথ্য বিবরণী
-//         </h2>
-
-//         <form onSubmit={submitForm} className="space-y-4">
-//           <Field label="Ref" name="ref" onChange={handleChange} />
-//           <Field label="Date" name="date" type="date" onChange={handleChange} />
-//           <Field label="সংগঠীত" name="org" onChange={handleChange} />
-//           <Field label="মাধ্যম" name="media" onChange={handleChange} />
-//           <Field label="আবেদনকারী" name="applicant" onChange={handleChange} />
-//           <Field label="স্থায়ী ঠিকানা" name="permanent" onChange={handleChange} />
-//           <Field label="বর্তমান ঠিকানা" name="present" onChange={handleChange} />
-//           <Field label="ফোন নম্বর" name="phone" onChange={handleChange} />
-//           <Field label="জাতীয়তা" name="nationality" onChange={handleChange} />
-
-//           <Field label="অভিযুক্ত/বিবাদীর নাম" name="accused" onChange={handleChange} />
-//           <Field label="বর্তমান ঠিকানা (বিবাদীর)" name="accused_present" onChange={handleChange} />
-//           <Field label="স্থায়ী ঠিকানা (বিবাদীর)" name="accused_permanent" onChange={handleChange} />
-//           <Field label="ফোন নম্বর (বিবাদীর)" name="accused_phone" onChange={handleChange} />
-//           <Field label="জাতীয়তা (বিবাদীর)" name="accused_nationality" onChange={handleChange} />
-
-//           <Field textarea label="অভিযোগের কারণ" name="reason" onChange={handleChange} />
-//           <Field textarea label="আইনী সহায়তার ধরন" name="help" onChange={handleChange} />
-//           <Field textarea label="পূর্বের মামলা / সালিশ" name="previous" onChange={handleChange} />
-//           <Field textarea label="সংক্ষিপ্ত বিবরণ" name="incident" onChange={handleChange} />
-
-//           {/* Signature */}
-//           <div className="text-right mt-6">
-//             <div
-//               className="cursor-pointer inline-block"
-//               onClick={openSignaturePicker}
-//             >
-//               <div className="border-t border-black w-48"></div>
-//               <p className="text-sm mt-1">আবেদনকারীর স্বাক্ষর</p>
-//             </div>
-
-//             <input
-//               ref={fileInputRef}
-//               type="file"
-//               accept="image/*"
-//               name="signature"
-//               onChange={handleChange}
-//               className="hidden"
-//             />
-
-//             {signaturePreview && (
-//               <div className="mt-3 inline-block relative">
-//                 <img src={signaturePreview} className="w-32 border" />
-//                 <button
-//                   type="button"
-//                   onClick={removeSignature}
-//                   className="absolute -top-2 -right-2 bg-red-600 text-white w-6 h-6 rounded-full"
-//                 >
-//                   ×
-//                 </button>
-//               </div>
-//             )}
-//           </div>
-
-//           <button
-//             type="submit"
-//             className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded font-semibold mt-6"
-//           >
-//             সাবমিট করুন
-//           </button>
-//         </form>
-//       </div>
-//     </div>
-//   );
-// }
-
-// function Field({ label, textarea, name, type = "text", onChange }) {
-//   return (
-//     <div>
-//       <label className="block text-sm font-semibold mb-1">{label}</label>
-//       {textarea ? (
-//         <textarea
-//           name={name}
-//           rows="3"
-//           onChange={onChange}
-//           className="w-full border rounded px-3 py-2"
-//         />
-//       ) : (
-//         <input
-//           type={type}
-//           name={name}
-//           onChange={onChange}
-//           className="w-full border rounded px-3 py-2"
-//         />
-//       )}
-//     </div>
-//   );
-// }
-
-
-
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
+import waterMark from "../assets/react.svg";
 
-export default function MembershipForm() {
-  const [form, setForm] = useState({});
-  const printRef = useRef();
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setForm((p) => ({ ...p, [name]: value }));
-  };
-
-  const downloadPDF = async () => {
-    const canvas = await html2canvas(printRef.current, {
-      scale: 2,
-      backgroundColor: "#ffffff",
-      useCORS: true,
-    });
-
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "pt", "a4");
-
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const imgProps = pdf.getImageProperties(imgData);
-    const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
-
-    pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
-    pdf.save("membership-form.pdf");
-  };
-
-  return (
-    <div className="min-h-screen bg-gray-100 py-10">
-      {/* ========= FORM INPUT ========= */}
-      <div className="max-w-4xl mx-auto bg-white shadow rounded p-6 mb-10">
-        <h2 className="text-xl font-bold text-center mb-6">
-          সদস্য ফরম (Input)
-        </h2>
-
-        <div className="grid grid-cols-2 gap-4">
-          <Input label="Ref" name="ref" onChange={handleChange} />
-          <Input label="Date" name="date" onChange={handleChange} />
-          <Input label="সদস্য নং" name="memberNo" onChange={handleChange} />
-          <Input label="পদের নাম" name="post" onChange={handleChange} />
-          <Input label="নাম (বাংলা)" name="nameBn" onChange={handleChange} />
-          <Input label="নাম (ইংরেজি)" name="nameEn" onChange={handleChange} />
-          <Input label="পিতার নাম" name="father" onChange={handleChange} />
-          <Input label="মাতার নাম" name="mother" onChange={handleChange} />
-          <Input label="জাতীয়তা" name="nationality" onChange={handleChange} />
-          <Input label="ধর্ম" name="religion" onChange={handleChange} />
-          <Input label="জন্ম তারিখ" name="dob" onChange={handleChange} />
-          <Input label="মোবাইল নম্বর" name="phone" onChange={handleChange} />
-          <Input label="Email" name="email" onChange={handleChange} />
-          <Input label="Facebook ID" name="facebook" onChange={handleChange} />
-        </div>
-
-        <button
-          onClick={downloadPDF}
-          className="mt-6 w-full bg-blue-700 hover:bg-blue-800 text-white py-2 rounded font-semibold"
-        >
-          Download PDF
-        </button>
-      </div>
-
-      {/* ========= PRINT AREA ========= */}
-      <div className="flex justify-center">
-        <div
-          ref={printRef}
-          className="relative w-[794px] bg-white p-8 text-[13px] leading-6 text-black font-[serif]"
-        >
-          {/* Left Ribbon */}
-          <div className="absolute left-0 top-0 h-full w-6 bg-gradient-to-b from-red-600 via-white to-blue-800" />
-
-          {/* Header */}
-          <div className="flex justify-between mb-2 pl-10">
-            <div>Ref: {form.ref}</div>
-            <div>Date: {form.date}</div>
-          </div>
-
-          {/* Title */}
-          <h1 className="text-center font-bold underline mb-4 pl-10">
-            সদস্য ফরম
-          </h1>
-
-          {/* Top Boxes */}
-          <div className="flex gap-4 mb-4 pl-10">
-            <div className="border p-3 w-1/2">
-              <p>সদস্য পদ প্রাপ্তির তারিখ: .................</p>
-              <p>সদস্য নং: {form.memberNo}</p>
-              <p>অনুমোদনের তারিখ: .................</p>
-            </div>
-            <div className="border p-3 w-1/2">
-              <p>পদের নাম: {form.post}</p>
-            </div>
-          </div>
-
-          {/* Info Lines */}
-          <div className="pl-10 space-y-1">
-            <Line label="নাম (বাংলা)" value={form.nameBn} />
-            <Line label="নাম (ইংরেজি)" value={form.nameEn} />
-            <Line label="পিতার নাম" value={form.father} />
-            <Line label="মাতার নাম" value={form.mother} />
-            <Line label="জাতীয়তা" value={form.nationality} />
-            <Line label="ধর্ম" value={form.religion} />
-            <Line label="জন্ম তারিখ" value={form.dob} />
-            <Line label="মোবাইল নম্বর" value={form.phone} />
-            <Line label="Facebook ID" value={form.facebook} />
-            <Line label="Email" value={form.email} />
-          </div>
-
-          {/* Declaration */}
-          <div className="mt-6 pl-10 text-justify text-[12px]">
-            আমি এই মর্মে অঙ্গীকার করিতেছি যে, উপরোক্ত বিবরণী সত্য।
-            সংগঠনের সকল নিয়ম-কানুন মেনে চলবো এবং মানবাধিকার বিরোধী
-            কোন কার্যক্রমে যুক্ত থাকবো না।
-          </div>
-
-          {/* Signature */}
-          <div className="mt-12 flex justify-end pr-10">
-            <div className="text-center">
-              <div className="border-t border-black w-40 mb-1"></div>
-              স্বাক্ষর
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ===== Helpers ===== */
-
-function Input({ label, ...props }) {
-  return (
-    <div>
-      <label className="text-sm font-semibold">{label}</label>
+const DottedInput = ({ label, name, value, onChange }) => (
+  <div className="flex items-center gap-2 mb-3">
+    <span className="whitespace-nowrap text-sm font-medium">{label}</span>
+    <div className="relative flex-1">
+      <div className="border-b border-dotted border-black h-6"></div>
       <input
-        {...props}
-        className="w-full border px-2 py-1 rounded mt-1"
+        type="text"
+        name={name}
+        value={value}
+        onChange={onChange}
+        className="absolute left-0 top-0 w-full h-full bg-transparent outline-none text-sm px-1"
       />
     </div>
-  );
-}
+  </div>
+);
 
-function Line({ label, value }) {
+export default function MembershipForm() {
+  const pdfRef = useRef(null);
+
+  const [formData, setFormData] = useState({
+    ref: "",
+    member_date: "",
+    member_no: "",
+    approval_date: "",
+    post_name: "",
+    name_bn: "",
+    father: "",
+    name_en: "",
+    mother: "",
+    permanent_address: "",
+    post: "",
+    upazila: "",
+    district: "",
+    present_address: "",
+    nationality: "",
+    religion: "",
+    dob: "",
+    profession: "",
+    age: "",
+    education: "",
+    mobile: "",
+    nid: "",
+    facebook: "",
+    email: "",
+    office_sign: null,
+    applicant_sign: null,
+  });
+
+  // TEXT + FILE handler
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+
+    if (files) {
+      const imageURL = URL.createObjectURL(files[0]);
+      setFormData((prev) => ({
+        ...prev,
+        [name]: imageURL,
+      }));
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
+  };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const element = pdfRef.current;
+
+  const canvas = await html2canvas(element, {
+    scale: 2,
+    useCORS: true,
+    backgroundColor: "#ffffff",
+    ignoreElements: (el) => el.classList.contains("no-print"),
+  });
+
+  const imgData = canvas.toDataURL("image/png");
+  const pdf = new jsPDF("p", "mm", "a4");
+
+  const pdfWidth = pdf.internal.pageSize.getWidth();
+  const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+  pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+  pdf.save("membership_application.pdf");
+
+  // ✅ PDF save হওয়ার পরে form clear
+  setFormData({
+    ref: "",
+    member_date: "",
+    member_no: "",
+    approval_date: "",
+    post_name: "",
+    name_bn: "",
+    father: "",
+    name_en: "",
+    mother: "",
+    permanent_address: "",
+    post: "",
+    upazila: "",
+    district: "",
+    present_address: "",
+    nationality: "",
+    religion: "",
+    dob: "",
+    profession: "",
+    age: "",
+    education: "",
+    mobile: "",
+    nid: "",
+    facebook: "",
+    email: "",
+    office_sign: null,
+    applicant_sign: null,
+  });
+};
+
+
   return (
-    <p>
-      {label}: <span className="inline-block border-b border-dotted w-[420px]">
-        {value}
-      </span>
-    </p>
+    <form
+      ref={pdfRef}
+      onSubmit={handleSubmit}
+      className="max-w-4xl mx-auto bg-white p-10 relative font-serif shadow-xl rounded-md my-10"
+    >
+      {/* Watermark */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <img src={waterMark} alt="Watermark" className="w-[600px] opacity-10" />
+      </div>
+
+      <div className="relative z-10 text-black space-y-6">
+        {/* Header */}
+        <div className="flex justify-between gap-4">
+          <div className="border border-black p-4 flex-1 space-y-2">
+            <DottedInput label="Ref" name="ref" value={formData.ref} onChange={handleChange} />
+            <DottedInput label="সদস্য পদ প্রাপ্তির তারিখ" name="member_date" value={formData.member_date} onChange={handleChange} />
+            <DottedInput label="সদস্য/সদস্যা নং" name="member_no" value={formData.member_no} onChange={handleChange} />
+            <DottedInput label="অনুমোদনের তারিখ" name="approval_date" value={formData.approval_date} onChange={handleChange} />
+          </div>
+
+          <div className="pt-6 flex justify-center items-center">
+            <h2 className="text-2xl font-bold">সদস্য ফর্ম</h2>
+          </div>
+
+          <div className="border border-black p-4 flex-1">
+            <DottedInput label="পদের নাম" name="post_name" value={formData.post_name} onChange={handleChange} />
+          </div>
+        </div>
+
+        {/* Main Fields */}
+        <div className="grid grid-cols-2 gap-x-6">
+          <DottedInput label="নাম (বাংলা)" name="name_bn" value={formData.name_bn} onChange={handleChange} />
+          <DottedInput label="পিতার নাম" name="father" value={formData.father} onChange={handleChange} />
+          <DottedInput label="নাম (ইংরেজি)" name="name_en" value={formData.name_en} onChange={handleChange} />
+          <DottedInput label="মাতার নাম" name="mother" value={formData.mother} onChange={handleChange} />
+          <DottedInput label="স্থায়ী ঠিকানা" name="permanent_address" value={formData.permanent_address} onChange={handleChange} />
+          <DottedInput label="পোঃ" name="post" value={formData.post} onChange={handleChange} />
+          <DottedInput label="উপজেলা" name="upazila" value={formData.upazila} onChange={handleChange} />
+          <DottedInput label="জেলা" name="district" value={formData.district} onChange={handleChange} />
+        </div>
+
+        <DottedInput label="বর্তমান ঠিকানা" name="present_address" value={formData.present_address} onChange={handleChange} />
+
+        <div className="grid grid-cols-3 gap-x-6">
+          <DottedInput label="জাতীয়তা" name="nationality" value={formData.nationality} onChange={handleChange} />
+          <DottedInput label="ধর্ম" name="religion" value={formData.religion} onChange={handleChange} />
+          <DottedInput label="জন্ম তারিখ" name="dob" value={formData.dob} onChange={handleChange} />
+        </div>
+
+        <div className="grid grid-cols-3 gap-x-6">
+          <DottedInput label="পেশা" name="profession" value={formData.profession} onChange={handleChange} />
+          <DottedInput label="বয়স" name="age" value={formData.age} onChange={handleChange} />
+          <DottedInput label="শিক্ষাগত যোগ্যতা" name="education" value={formData.education} onChange={handleChange} />
+        </div>
+
+        <div className="grid grid-cols-2 gap-x-6">
+          <DottedInput label="মোবাইল নম্বর" name="mobile" value={formData.mobile} onChange={handleChange} />
+          <DottedInput label="এনআইডি নং" name="nid" value={formData.nid} onChange={handleChange} />
+        </div>
+
+        <div className="grid grid-cols-2 gap-x-6">
+          <DottedInput label="Facebook ID" name="facebook" value={formData.facebook} onChange={handleChange} />
+          <DottedInput label="Email" name="email" value={formData.email} onChange={handleChange} />
+        </div>
+
+        <h3 className="text-center font-bold mt-6 mb-2">অঙ্গীকার নামা</h3>
+
+        <p className="text-sm leading-relaxed text-justify">
+          আমি .......................... এই মর্মে অঙ্গীকার করিতেছি যে, উপরোক্ত
+          বিবরণী সত্য। গণতন্ত্র, পীড়িয়া সকল নিয়মকানুন জেনে ও বুঝিয়া আবেদন
+          করিতেছি।
+        </p>
+
+        {/* Signatures */}
+        <div className="flex justify-between mt-16">
+          {/* Office */}
+          <div className="text-center">
+            <div className="h-16 w-44 border-b border-black mb-2 mx-auto flex items-center justify-center">
+              {formData.office_sign && (
+                <img src={formData.office_sign} alt="Office Sign" className="h-14 object-contain" />
+              )}
+            </div>
+            <input type="file" accept="image/*" name="office_sign" onChange={handleChange} className="text-xs no-print" />
+            <p className="text-sm mt-1">অফিস কর্তৃপক্ষের স্বাক্ষর</p>
+          </div>
+
+          {/* Applicant */}
+          <div className="text-center">
+            <div className="h-16 w-44 border-b border-black mb-2 mx-auto flex items-center justify-center">
+              {formData.applicant_sign && (
+                <img src={formData.applicant_sign} alt="Applicant Sign" className="h-14 object-contain" />
+              )}
+            </div>
+            <input type="file" accept="image/*" name="applicant_sign" onChange={handleChange} className="text-xs no-print" />
+            <p className="text-sm mt-1">আবেদনকারীর স্বাক্ষর</p>
+          </div>
+        </div>
+
+        {/* Submit */}
+        <div className="flex justify-center mt-10">
+          <button
+            type="submit"
+            className="px-10 py-2 border-2 border-black font-semibold hover:bg-black hover:text-white transition rounded no-print"
+          >
+            আবেদন জমা দিন
+          </button>
+        </div>
+      </div>
+    </form>
   );
 }
