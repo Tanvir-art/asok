@@ -1,40 +1,8 @@
-import { useState } from "react";
-import chairManImage from "../assets/b.jpg";
-
-/* ===== DIVISIONS ===== */
-const divisions = [
-  "সব",
-  "ঢাকা",
-  "চট্টগ্রাম",
-  "রাজশাহী",
-  "খুলনা",
-  "বরিশাল",
-  "সিলেট",
-  "রংপুর",
-  "ময়মনসিংহ",
-];
-
-/* ===== DATA ===== */
-const vibagioCommittee = [
-  {
-    name: "মোঃ শামসুল আলম",
-    title: "চেয়ারম্যান",
-    address: "ঢাকা",
-     image: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    name: "মোঃ আব্দুল করিম",
-    title: "মহাসচিব",
-    address: "চট্টগ্রাম",
-    image: "https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?auto=format&fit=crop&w=500&q=80",
-  },
-  {
-    name: "মোঃ রাশেদ মাহমুদ",
-    title: "সহ-সভাপতি",
-    address: "রাজশাহী",
-    image: "https://images.unsplash.com/photo-1557862921-37829c790f19?auto=format&fit=crop&w=500&q=80",
-  },
-];
+import { useState, useEffect } from "react";
+import axios from "axios";
+import chairManImage from "../assets/helal.jpeg";
+import founder from "../assets/samsul.jpeg";
+import ceo from "../assets/nazmun.jpeg";
 
 /* ===== MEMBER CARD ===== */
 function MemberCard({ m }) {
@@ -43,7 +11,7 @@ function MemberCard({ m }) {
       {/* IMAGE */}
       <div className="relative overflow-hidden">
         <img
-          src={m.image}
+          src={`http://localhost:4000/${m.image}`}
           alt={m.name}
           className="w-full h-56 object-cover group-hover:scale-110 transition duration-500"
         />
@@ -51,97 +19,173 @@ function MemberCard({ m }) {
       </div>
 
       {/* CONTENT */}
-      <div className="p-4 text-center">
-        <h4 className="font-bold text-lg">{m.name}</h4>
-        <p className="text-sm text-[#0A4D9C] font-semibold">{m.title}</p>
-        <p className="text-xs text-gray-500 mt-1">
-          {m.address} বিভাগ
-        </p>
+      <div className="p-6 text-center">
+        <h4 className="font-bold text-xl text-gray-800 mb-2">{m.name}</h4>
+        <p className="text-sm text-blue-600 font-semibold mb-1">{m.position}</p>
+        <p className="text-xs text-gray-500">{m.location} বিভাগ</p>
+        <p className="text-xs text-gray-400 mt-1">{m.address}</p>
       </div>
     </div>
   );
 }
 
+/* ===== MAIN COMPONENT ===== */
+export default function VivagioCommittee() {
+  const [committees, setCommittees] = useState([]);
+  const [filteredCommittees, setFilteredCommittees] = useState([]);
+  const [selectedDivision, setSelectedDivision] = useState("সব");
+  const [divisions, setDivisions] = useState(["সব"]);
+  const [loading, setLoading] = useState(true);
 
-export default function VibagioCommittee() {
-  const [activeDivision, setActiveDivision] = useState("ঢাকা");
+  useEffect(() => {
+    fetchCommittees();
+  }, []);
 
-  const filteredMembers =
-    activeDivision === "সব"
-      ? vibagioCommittee
-      : vibagioCommittee.filter(
-          (m) => m.address === activeDivision
-        );
+  useEffect(() => {
+    filterCommittees();
+  }, [selectedDivision, committees]);
+
+  const fetchCommittees = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/api/committees?type=vivag');
+      setCommittees(response.data.data);
+      
+      // Extract unique divisions
+      const uniqueDivisions = [...new Set(response.data.data.map(c => c.location))];
+      setDivisions(["সব", ...uniqueDivisions]);
+    } catch (error) {
+      console.error('Error fetching committees:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const filterCommittees = () => {
+    if (selectedDivision === "সব") {
+      setFilteredCommittees(committees);
+    } else {
+      setFilteredCommittees(committees.filter(c => c.location === selectedDivision));
+    }
+  };
+
+  if (loading) {
+    return (
+      <section className="min-h-screen bg-slate-50 py-10 flex items-center justify-center">
+        <div className="text-center">Loading...</div>
+      </section>
+    );
+  }
 
   return (
     <section className="min-h-screen bg-slate-50 py-10">
       <h2 className="text-3xl font-bold text-center text-[#0A4D9C] mb-10">
-        বিভাগীয় কমিটি
+        বিভাগীয় কমিটি
       </h2>
 
-      {/* ===== LAYOUT ===== */}
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+      {/* ===== FILTER BUTTONS ===== */}
+      <div className="mx-auto px-16 lg:px-24 mb-8">
+        <div className="flex flex-wrap justify-center gap-3">
+          {divisions.map((division) => (
+            <button
+              key={division}
+              onClick={() => setSelectedDivision(division)}
+              className={`px-6 py-2 rounded-full font-semibold transition ${
+                selectedDivision === division
+                  ? "bg-blue-600 text-white shadow-lg"
+                  : "bg-white text-gray-700 hover:bg-blue-50 shadow-md"
+              }`}
+            >
+              {division}
+            </button>
+          ))}
+        </div>
+      </div>
 
-        {/* ===== LEFT : FILTER + MEMBERS ===== */}
-        <div className="lg:col-span-3 space-y-6">
-          
-          {/* ===== DIVISION FILTER (TOP LEFT) ===== */}
-          <div className="flex flex-wrap gap-3">
-            {divisions.map((d) => (
-              <button
-                key={d}
-                onClick={() => setActiveDivision(d)}
-                className={`px-4 py-2 rounded-full text-sm font-semibold transition
-                  ${
-                    activeDivision === d
-                      ? "bg-[#0A4D9C] text-white"
-                      : "bg-white text-gray-700 shadow hover:bg-[#0A4D9C]/10"
-                  }`}
-              >
-                {d}
-              </button>
-            ))}
-          </div>
-
-          {/* ===== MEMBERS GRID ===== */}
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {filteredMembers.map((m, i) => (
+      {/* ===== MEMBER CARDS ===== */}
+      <div className="mx-auto px-16 lg:px-24 grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="lg:col-span-3">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {filteredCommittees.map((m, i) => (
               <MemberCard key={i} m={m} />
             ))}
           </div>
+
+          {filteredCommittees.length === 0 && (
+            <div className="text-center py-12">
+              <p className="text-gray-500">কোন কমিটি সদস্য পাওয়া যায়নি</p>
+            </div>
+          )}
         </div>
 
-        {/* ===== RIGHT : ASIDE (UNCHANGED) ===== */}
+        {/* ===== RIGHT : ASIDE ===== */}
         <aside className="space-y-6 sticky top-24 h-fit">
-          {[1, 2].map((_, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-xl shadow-md p-4 text-center"
-            >
-              <img
-                src={chairManImage}
-                alt="Chairman"
-                className="w-full h-60 object-cover rounded-lg"
-              />
+          {/* Chairman */}
+          <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4">
+            <img
+              src={chairManImage}
+              alt="Chairman"
+              className="w-full rounded-lg object-cover"
+            />
 
-              <button className="w-full mt-4 bg-red-500 hover:bg-red-600 text-white py-2 rounded-md font-semibold transition">
-                চেয়ারম্যান
-              </button>
+            <button className="w-full mt-4 bg-red-500 hover:bg-red-600 text-white py-2 rounded-md font-semibold transition">
+              চেয়ারম্যান
+            </button>
 
-              <h3 className="mt-4 font-bold text-lg text-gray-800">
-                মোঃ শামসুল আলম
-              </h3>
+            <h3 className="mt-4 text-center font-bold text-lg text-gray-800">
+              অ্যাডভোকেট মোঃ হেলাল উদ্দিন পাটোয়ারী
+            </h3>
 
-              <p className="text-sm text-gray-600 mt-1 leading-relaxed">
-                আন্তর্জাতিক মানবাধিকার সংস্থা <br />
-                আইন সহায়তা কেন্দ্র ও মানবাধিকার ফাউন্ডেশন
-              </p>
-            </div>
-          ))}
+            <p className="text-center text-sm text-gray-600 mt-1">
+              চেয়ারম্যান <br />
+              আইন সহায়তা কেন্দ্র (আসক) ফাউন্ডেশন
+            </p>
+          </div>
+
+          {/* Founder */}
+          <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4">
+            <img
+              src={founder}
+              alt="Founder"
+              className="w-full rounded-lg object-cover"
+            />
+
+            <button className="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md font-semibold transition">
+              প্রতিষ্ঠাতা
+            </button>
+
+            <h3 className="mt-4 text-center font-bold text-lg text-gray-800">
+              মোঃ শামসুল হক
+            </h3>
+
+            <p className="text-center text-sm text-gray-600 mt-1">
+              প্রতিষ্ঠাতা <br />
+              আইন সহায়তা কেন্দ্র (আসক) ফাউন্ডেশন
+            </p>
+          </div>
+
+          {/* Executive Director */}
+          <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4">
+            <img
+              src={ceo}
+              alt="Executive Director"
+              className="w-full rounded-lg object-cover"
+            />
+
+            <button className="w-full mt-4 bg-green-500 hover:bg-green-600 text-white py-2 rounded-md font-semibold transition">
+              নির্বাহী পরিচালক
+            </button>
+
+            <h3 className="mt-4 text-center font-bold text-lg text-gray-800">
+              নাজমুন নাহার
+            </h3>
+
+            <p className="text-center text-sm text-gray-600 mt-1">
+              নির্বাহী পরিচালক <br />
+              আইন সহায়তা কেন্দ্র (আসক) ফাউন্ডেশন
+            </p>
+          </div>
         </aside>
-
       </div>
     </section>
   );
 }
-

@@ -1,88 +1,66 @@
+import { Link } from "react-router-dom";
+import logo from "../assets/logo.jpeg";
+
 export default function Footer() {
   return (
     <footer className="w-full bg-gradient-to-r from-[#0A4D9C] via-[#0C6EDB] to-[#0A4D9C] text-white">
-      <div className="max-w-7xl mx-auto px-6 py-14 grid grid-cols-1 md:grid-cols-4 gap-10">
+      <div className="mx-auto px-6 lg:px-24 py-14 grid grid-cols-1 md:grid-cols-4 gap-10">
 
         {/* Logo & Address */}
         <div>
           <div className="bg-white w-28 h-28 rounded-full flex items-center justify-center mb-4 shadow-lg">
-            <span className="text-[#0A4D9C] font-extrabold text-3xl">AS</span>
+            <Link to="/">
+            <img className="rounded-full w-24 h-24 object-cover" src={logo} alt="Footer Logo" />
+            </Link>
           </div>
 
           <p className="text-sm leading-6 text-blue-100">
             <strong>Dhaka Office</strong><br />
-            37/2, Fayena Tower (Lift-4)<br />
-            4/A Calvert Road,<br />
-            Purana Paltan, Dhaka-1000
+            Mouchak Center Point Shopping Mall<br />
+            92, Circular Road, Siddeshwari, Dhaka<br />
+            Room No: 42,43 (4th Floor, Lift-3)
           </p>
-
-          <p className="mt-4 text-sm font-semibold text-blue-200">
-            Technical Support
-          </p>
-
-          <div className="flex gap-2 mt-2">
-            <div className="bg-white text-[#0A4D9C] px-2 py-1 text-xs rounded">
-              a2i
-            </div>
-            <div className="bg-white text-[#0A4D9C] px-2 py-1 text-xs rounded">
-              ICT
-            </div>
-            <div className="bg-white text-[#0A4D9C] px-2 py-1 text-xs rounded">
-              UNDP
-            </div>
-          </div>
         </div>
 
-        {/* Recent Posts */}
+        {/* Contact Details */}
         <div>
-          <h3 className="text-xl font-bold mb-4">Recent Posts:</h3>
-
-          <ul className="space-y-4 text-sm text-blue-100 leading-6">
-            <li className="hover:text-yellow-300 cursor-pointer transition">
-              Honorable Chairman's invitation to the Paris Marriott Charles de
-              Gaulle Hotel!
-            </li>
-
-            <li className="hover:text-yellow-300 cursor-pointer transition">
-              Invitation to Mr. Md. Shamsul Alam, Honorable Chairman of the Legal
-              Aid Center and Human Rights Foundation, to the Paris Marriott
-              Charles de Gaulle Hotel in Paris, France, from January 24–27!
-            </li>
-          </ul>
-        </div>
-
-        {/* Just for You */}
-        <div>
-          <h3 className="text-xl font-bold mb-4">Just for You:</h3>
-
-          <ul className="space-y-4 text-sm text-blue-100 leading-6">
-            <li className="hover:text-yellow-300 cursor-pointer transition">
-              Honorable Chairman's invitation to the Paris Marriott Charles de
-              Gaulle Hotel!
-            </li>
-
-            <li className="hover:text-yellow-300 cursor-pointer transition">
-              Invitation to Mr. Md. Shamsul Alam, Honorable Chairman of the Legal
-              Aid Center and Human Rights Foundation, to the Paris Marriott
-              Charles de Gaulle Hotel in Paris, France, from January 24–27!
-            </li>
-          </ul>
-        </div>
-
-        {/* Contact Information */}
-        <div>
-          <h3 className="text-xl font-bold mb-4">Contact Information</h3>
+          <h3 className="text-xl font-bold mb-4">Contact Details</h3>
 
           <ul className="space-y-3 text-sm text-blue-100">
-            <li>📞 +88 01552288823</li>
-            <li>📞 +880 1618-541238</li>
-            <li>✉️ asokbd24@gmail.com</li>
-            <li>✉️ dailytathosangbad@gmail.com</li>
-            <li>🌐 dailytathosangbad.com</li>
+            <li>📞 Tel: 01-9513188</li>
+            <li>📞 01750-408926</li>
+            <li>📞 01932276749</li>
+            <li>✉️ asokfoundation@gmail.com</li>
+            <li>✉️ shandhabani@gmail.com</li>
+            <li>🌐 www.asokfoundation.org</li>
           </ul>
+        </div>
 
-          {/* Social Icons */}
-          <div className="flex gap-3 mt-6">
+        {/* Useful Links */}
+        <div>
+          <h3 className="text-xl font-bold mb-4">Useful Links</h3>
+
+          <ul className="space-y-4 text-sm text-blue-100 leading-6">
+            <li className="hover:text-yellow-300 cursor-pointer transition">
+              About ASOK Foundation
+            </li>
+            <li className="hover:text-yellow-300 cursor-pointer transition">
+              Legal Aid Services
+            </li>
+            <li className="hover:text-yellow-300 cursor-pointer transition">
+              Human Rights Activities
+            </li>
+            <li className="hover:text-yellow-300 cursor-pointer transition">
+              Membership Information
+            </li>
+          </ul>
+        </div>
+
+        {/* Social & Support */}
+        <div>
+          <h3 className="text-xl font-bold mb-4">Connect With Us</h3>
+
+          <div className="flex gap-3 mb-6">
             {["f", "📷", "▶", "💬"].map((icon, i) => (
               <div
                 key={i}
@@ -92,12 +70,16 @@ export default function Footer() {
               </div>
             ))}
           </div>
+
+          <p className="text-sm text-blue-100">
+            Working for legal aid & human rights across Bangladesh.
+          </p>
         </div>
       </div>
 
       {/* Bottom Bar */}
       <div className="border-t border-white/20 text-center py-4 text-sm text-blue-100">
-        © {new Date().getFullYear()} Ain Soheyata Kendro ASOK O Manabadhikar Foundation. All rights reserved.
+        © {new Date().getFullYear()} Ain Sohayota Kendro (ASOK) Foundation. All rights reserved.
       </div>
     </footer>
   );

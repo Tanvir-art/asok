@@ -7,12 +7,12 @@ export default function InfoCard({ title, image, items }) {
           alt={title}
           className="w-16 h-16 object-contain"
         />
-        <h2 className="text-lg font-bold text-gray-800">
+        <h2 className="text-xl font-bold text-gray-800">
           {title}
         </h2>
       </div>
 
-      <ul className="mt-4 space-y-2 text-gray-700 text-sm">
+      <ul className="mt-4 space-y-2 text-gray-700 text-lg">
         {items.map((item, i) => (
           <li key={i} className="flex items-start gap-2">
             <span className="text-blue-600 mt-1">▶</span>

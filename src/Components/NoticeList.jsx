@@ -10,7 +10,7 @@ export default function NoticeList({ notices = [] }) {
           <span className="text-blue-600 text-lg">◀</span>
 
           {/* Text */}
-          <p className="text-sm md:text-base text-gray-800 hover:underline">
+          <p className="text-lg md:text-base text-gray-800 hover:underline">
             <span className="font-semibold">
               নোটিশ নং-{notice.no} ::
             </span>{" "}

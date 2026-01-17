@@ -29,7 +29,7 @@ export default function Gallery() {
   const [activeVideo, setActiveVideo] = useState(null);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-10">
+    <section className="mx-auto px-16 lg:px-24 py-10">
       
       {/* Tabs */}
       <div className="flex justify-center gap-4 mb-10">

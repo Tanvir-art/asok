@@ -2,7 +2,7 @@ export default function NoticeBar() {
   return (
     <div className="bg-white rounded-lg shadow overflow-hidden border-l-4 border-blue-600">
       <div className="flex items-center gap-3 px-4 py-3">
-        <span className="bg-blue-600 text-white px-3 py-1 rounded text-sm font-semibold">
+        <span className="bg-blue-600 text-white px-3 py-1 rounded text-lg font-semibold">
           নোটিশ
         </span>
 

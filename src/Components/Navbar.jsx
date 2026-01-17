@@ -1,19 +1,28 @@
-import { Link } from "react-router-dom";
-import topheader from "../assets/topheader.png";
+import { Link, NavLink } from "react-router-dom";
+import { useState } from "react";
+import logo from "../assets/logo.jpeg";
+import TopHeader from "./TopHeader";
+
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
+
+  const navLinkClass = ({ isActive }) =>
+    `block px-4 py-2 rounded transition ${
+      isActive
+        ? "bg-white text-[#0A4D9C] font-semibold"
+        : "text-white hover:bg-white/10"
+    }`;
+
   return (
     <>
+      {/* ===== TOP BAR ===== */}
       <div className="w-full bg-gradient-to-r from-[#0A4D9C] via-[#0C6EDB] to-[#0A4D9C] shadow-lg border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-          {/* Left side */}
+        <div className="mx-auto px-16 lg:px-24 py-3 flex items-center justify-between">
           <div className="flex items-center w-full">
-
-            {/* Text - Left */}
             <span className="text-white/70 text-sm font-medium">
               International Organization Portal
             </span>
 
-            {/* Dropdown - Right */}
             <select
               className="ml-auto bg-transparent text-white text-sm border border-white/40 rounded px-2 py-1 focus:outline-none"
               defaultValue="en"
@@ -21,48 +30,86 @@ export default function Navbar() {
               <option value="en" className="text-black">English</option>
               <option value="bn" className="text-black">বাংলা</option>
             </select>
-
           </div>
         </div>
-
-
       </div>
-      <div className="max-w-7xl mx-auto px-4 py-1">
-        <img src={topheader} alt="Logo" className="h-full w-full " />
+
+      {/* ===== TOP HEADER ===== */}
+      <div className="mx-auto px-16 lg:px-24 py-1">
+        <TopHeader />
       </div>
-      <header className="w-full bg-gradient-to-r from-[#0A4D9C] via-[#0C6EDB] to-[#0A4D9C] shadow-lg border-b border-white/10">
-        <div className="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-          {/* Logo / Name */}
-          <div className="flex items-center gap-3">
-            <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center shadow-md">
-              <span className="text-[#0A4D9C] font-extrabold text-lg">AS</span>
+
+      {/* ===== MAIN NAVBAR ===== */}
+      <header className="w-full bg-gradient-to-r from-[#0A4D9C] via-[#0C6EDB] to-[#0A4D9C] shadow-lg border-b border-white/10 relative">
+        <div className="mx-auto px-16 lg:px-24 py-3 flex justify-between items-center">
+
+          {/* Logo */}
+          <div className="flex flex-col items-center gap-3">
+            <div className="h-[100px] w-[100px] bg-white rounded-full flex items-center justify-center shadow-md">
+              <Link to="/">
+                <img className="rounded-full" src={logo} alt="ASOK Logo" />
+              </Link>
             </div>
-            <div>
-              <h1 className="text-white text-lg sm:text-xl font-bold leading-tight">
-                AIN SOHEYATA KENDRO ASOK<br />
-                <span className="text-blue-100 text-sm">
-                  O MANABADHIKAR FOUNDATION
-                </span>
-              </h1>
-            </div>
+              {/* <span>Ain Shohaota Kendra (ASOK) Foundation</span> */}
+            <h1 className="text-white text-lg sm:text-xl font-bold leading-tight">
+              Ain Shohaota Kendra (ASOK) Foundation
+            </h1>
           </div>
 
           {/* Desktop Menu */}
-          <nav className="hidden md:flex gap-6 text-white font-medium">
-            <Link to="/" className="hover:text-yellow-300 transition">প্রচ্ছদ</Link>
-            <Link to="/news" className="hover:text-yellow-300 transition">আসক নিউজ</Link>
-            <Link to="/committee" className="hover:text-yellow-300 transition">কমিটি</Link>
-            <Link to="/documents" className="hover:text-yellow-300 transition">তথ্য পত্র</Link>
-            <Link to="/governance" className="hover:text-yellow-300 transition">গঠনন্তু</Link>
-            <Link to="/membership" className="hover:text-yellow-300 transition">সদস্য</Link>
-            <Link to="/family" className="hover:text-yellow-300 transition">পরিবার</Link>
-            <Link to="/gallery" className="hover:text-yellow-300 transition">ছবি ও ভিডিও</Link>
+          <nav className="hidden md:flex gap-2 font-medium">
+            <NavLink to="/" className={navLinkClass}>প্রচ্ছদ</NavLink>
+            <NavLink to="/news" className={navLinkClass}>আসক নিউজ</NavLink>
+            <NavLink to="/committee" className={navLinkClass}>কমিটি</NavLink>
+            <NavLink to="/documents" className={navLinkClass}>তথ্য পত্র</NavLink>
+            <NavLink to="/governance" className={navLinkClass}>গঠনন্তু</NavLink>
+            <NavLink to="/membership" className={navLinkClass}>সদস্য ফর্ম</NavLink>
+            <NavLink to="/family" className={navLinkClass}>পরিবার</NavLink>
+            <NavLink to="/gallery" className={navLinkClass}>ছবি ও ভিডিও</NavLink>
           </nav>
 
-          {/* Mobile Menu Button */}
-          <button className="md:hidden text-white text-3xl">
+          {/* Mobile Button */}
+          <button
+            onClick={() => setOpen(true)}
+            className="md:hidden text-white text-3xl"
+          >
             ☰
           </button>
+        </div>
+
+        {/* ===== MOBILE OVERLAY ===== */}
+        <div
+          className={`fixed inset-0 bg-black/50 z-40 transition-opacity ${
+            open ? "opacity-100 visible" : "opacity-0 invisible"
+          }`}
+          onClick={() => setOpen(false)}
+        />
+
+        {/* ===== MOBILE SLIDE MENU ===== */}
+        <div
+          className={`fixed top-0 right-0 h-full w-72 bg-[#0A4D9C] z-50 transform transition-transform duration-300
+          ${open ? "translate-x-0" : "translate-x-full"}`}
+        >
+          <div className="p-4 flex justify-between items-center border-b border-white/20">
+            <span className="text-white font-bold text-lg">Menu</span>
+            <button
+              onClick={() => setOpen(false)}
+              className="text-white text-2xl"
+            >
+              ✕
+            </button>
+          </div>
+
+          <nav className="flex flex-col gap-2 p-4 font-medium">
+            <NavLink to="/" onClick={() => setOpen(false)} className={navLinkClass}>প্রচ্ছদ</NavLink>
+            <NavLink to="/news" onClick={() => setOpen(false)} className={navLinkClass}>আসক নিউজ</NavLink>
+            <NavLink to="/committee" onClick={() => setOpen(false)} className={navLinkClass}>কমিটি</NavLink>
+            <NavLink to="/documents" onClick={() => setOpen(false)} className={navLinkClass}>তথ্য পত্র</NavLink>
+            <NavLink to="/governance" onClick={() => setOpen(false)} className={navLinkClass}>গঠনন্তু</NavLink>
+            <NavLink to="/membership" onClick={() => setOpen(false)} className={navLinkClass}>সদস্য ফর্ম</NavLink>
+            <NavLink to="/family" onClick={() => setOpen(false)} className={navLinkClass}>পরিবার</NavLink>
+            <NavLink to="/gallery" onClick={() => setOpen(false)} className={navLinkClass}>ছবি ও ভিডিও</NavLink>
+          </nav>
         </div>
       </header>
     </>
