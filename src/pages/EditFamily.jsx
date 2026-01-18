@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Upload } from 'lucide-react';
 import axios from 'axios';
+import { Toaster } from 'react-hot-toast';
+import { showToast } from '../utils/toast';
 
 const EditFamily = () => {
   const [formData, setFormData] = useState({
@@ -39,7 +41,7 @@ const EditFamily = () => {
       }
     } catch (error) {
       console.error('Error fetching family member:', error);
-      alert('Failed to fetch family member data');
+      showToast.error('Failed to fetch family member data');
     } finally {
       setFetchLoading(false);
     }
@@ -85,11 +87,11 @@ const EditFamily = () => {
         }
       });
 
-      alert('Family member updated successfully!');
+      showToast.success('Family member updated successfully!');
       navigate('/admin');
     } catch (error) {
       console.error('Error updating family member:', error);
-      alert('Failed to update family member. Please try again.');
+      showToast.error('Failed to update family member. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -108,6 +110,7 @@ const EditFamily = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
+      <Toaster />
       <div className="mx-auto px-16 lg:px-24 sm:px-6 lg:px-8">
         <div className="mb-8">
           <button

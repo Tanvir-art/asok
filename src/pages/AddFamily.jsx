@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Upload } from 'lucide-react';
 import axios from 'axios';
+import { Toaster } from 'react-hot-toast';
+import { showToast } from '../utils/toast';
 
 const AddFamily = () => {
   const [formData, setFormData] = useState({
@@ -40,9 +42,11 @@ const AddFamily = () => {
     e.preventDefault();
     
     if (!image) {
-      alert('Please select an image');
+      showToast.error('Please select an image');
       return;
     }
+
+    const loadingToast = showToast.loading('Adding family member...');
 
     try {
       setLoading(true);
@@ -59,11 +63,13 @@ const AddFamily = () => {
         }
       });
 
-      alert('Family member added successfully!');
+      showToast.dismiss(loadingToast);
+      showToast.success('Family member added successfully!');
       navigate('/admin');
     } catch (error) {
       console.error('Error adding family member:', error);
-      alert('Failed to add family member. Please try again.');
+      showToast.dismiss(loadingToast);
+      showToast.error('Failed to add family member. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -71,6 +77,7 @@ const AddFamily = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
+      <Toaster />
       <div className="mx-auto px-16 lg:px-24 sm:px-6 lg:px-8">
         <div className="mb-8">
           <button

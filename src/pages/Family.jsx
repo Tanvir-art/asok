@@ -40,7 +40,7 @@ export default function Family() {
             className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden text-center"
           >
             <img
-              src={`http://localhost:4000/uploads/${member.image}`}
+              src={`http://localhost:4000/${member.image}`}
               alt={member.name}
               className="w-full h-56 object-cover"
             />

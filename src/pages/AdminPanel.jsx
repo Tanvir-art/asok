@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Edit, Trash2, Users, Newspaper, LogOut, Heart } from 'lucide-react';
+import { Plus, Edit, Trash2, Users, Newspaper, LogOut, Heart, Image } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { Toaster } from 'react-hot-toast';
+import { showToast } from '../utils/toast';
 
 const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState('committee');
   const [committees, setCommittees] = useState([]);
   const [news, setNews] = useState([]);
   const [families, setFamilies] = useState([]);
+  const [gallery, setGallery] = useState([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -36,6 +39,11 @@ const AdminPanel = () => {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         setFamilies(response.data.data || []);
+      } else if (activeTab === 'gallery') {
+        const response = await axios.get(`${API_BASE}/gallery`, {
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        setGallery(response.data.data || []);
       }
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -60,6 +68,8 @@ const AdminPanel = () => {
       navigate('/admin/add-news');
     } else if (activeTab === 'family') {
       navigate('/admin/add-family');
+    } else if (activeTab === 'gallery') {
+      navigate('/admin/add-gallery');
     }
   };
 
@@ -74,20 +84,24 @@ const AdminPanel = () => {
   };
 
   const handleDelete = async (id) => {
-    const confirmed = window.confirm(`Are you sure you want to delete this ${activeTab === 'committee' ? 'committee member' : activeTab === 'news' ? 'news article' : 'family member'}?`);
+    const confirmed = window.confirm(`Are you sure you want to delete this ${activeTab === 'committee' ? 'committee member' : activeTab === 'news' ? 'news article' : activeTab === 'family' ? 'family member' : 'gallery item'}?`);
     if (!confirmed) return;
+    
+    const loadingToast = showToast.loading('Deleting...');
     
     try {
       setLoading(true);
-      const endpoint = activeTab === 'committee' ? 'committees' : activeTab === 'news' ? 'news' : 'families';
+      const endpoint = activeTab === 'committee' ? 'committees' : activeTab === 'news' ? 'news' : activeTab === 'family' ? 'families' : 'gallery';
       await axios.delete(`${API_BASE}/${endpoint}/${id}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       fetchData();
-      alert(`${activeTab === 'committee' ? 'Committee member' : activeTab === 'news' ? 'News article' : 'Family member'} deleted successfully!`);
+      showToast.dismiss(loadingToast);
+      showToast.success(`${activeTab === 'committee' ? 'Committee member' : activeTab === 'news' ? 'News article' : activeTab === 'family' ? 'Family member' : 'Gallery item'} deleted successfully!`);
     } catch (error) {
       console.error('Error deleting:', error);
-      alert('Failed to delete. Please try again.');
+      showToast.dismiss(loadingToast);
+      showToast.error('Failed to delete. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -95,6 +109,7 @@ const AdminPanel = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Toaster />
       <div className="bg-white shadow-sm border-b">
         <div className="mx-auto px-16 lg:px-24 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center py-6">
@@ -134,6 +149,17 @@ const AdminPanel = () => {
                 Family
               </button>
               <button
+                onClick={() => setActiveTab('gallery')}
+                className={`flex items-center px-4 py-2 rounded-lg font-medium ${
+                  activeTab === 'gallery'
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                <Image className="mr-2" size={20} />
+                Gallery
+              </button>
+              <button
                 onClick={handleLogout}
                 className="flex items-center px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
               >
@@ -149,7 +175,7 @@ const AdminPanel = () => {
         <div className="bg-white rounded-lg shadow">
           <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
             <h2 className="text-xl font-semibold text-gray-800">
-              {activeTab === 'committee' ? 'Committee Members' : activeTab === 'news' ? 'News Articles' : 'Family Members'}
+              {activeTab === 'committee' ? 'Committee Members' : activeTab === 'news' ? 'News Articles' : activeTab === 'family' ? 'Family Members' : 'Gallery Items'}
             </h2>
             <button
               onClick={handleAdd}
@@ -168,19 +194,25 @@ const AdminPanel = () => {
               </div>
             ) : (
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {(activeTab === 'committee' ? committees : activeTab === 'news' ? news : families).map((item) => (
+                {(activeTab === 'committee' ? committees : activeTab === 'news' ? news : activeTab === 'family' ? families : gallery).map((item) => (
                   <div key={item._id} className="bg-gray-50 rounded-lg p-4 hover:shadow-md transition-shadow">
                     <div className="aspect-w-16 aspect-h-9 mb-4">
-                      <img 
-                        src={`http://localhost:4000/${item.image}`}
-                        alt={activeTab === 'committee' ? item.name : activeTab === 'news' ? item.title : item.name}
-                        className="w-full h-48 object-cover rounded-lg"
-                      />
+                      {activeTab === 'gallery' && item.type === 'videos' ? (
+                        <div className="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
+                          <span className="text-gray-500">Video: {item.videoLink}</span>
+                        </div>
+                      ) : (
+                        <img 
+                          src={`http://localhost:4000/${item.image}`}
+                          alt={activeTab === 'committee' ? item.name : activeTab === 'news' ? item.title : activeTab === 'family' ? item.name : item.title}
+                          className="w-full h-48 object-cover rounded-lg"
+                        />
+                      )}
                     </div>
                     
                     <div className="space-y-2">
                       <h3 className="font-semibold text-lg text-gray-900">
-                        {activeTab === 'committee' ? item.name : activeTab === 'news' ? item.title : item.name}
+                        {activeTab === 'committee' ? item.name : activeTab === 'news' ? item.title : activeTab === 'family' ? item.name : item.title}
                       </h3>
                       
                       {activeTab === 'committee' ? (
@@ -195,18 +227,24 @@ const AdminPanel = () => {
                         </>
                       ) : activeTab === 'news' ? (
                         <p className="text-gray-600 text-sm line-clamp-3">{item.description}</p>
-                      ) : (
+                      ) : activeTab === 'family' ? (
                         <p className="text-blue-600 font-medium">{item.position}</p>
+                      ) : (
+                        <p className="text-sm text-purple-600 bg-purple-50 px-2 py-1 rounded inline-block">
+                          {item.type === 'photos' ? 'Photo' : 'Video'}
+                        </p>
                       )}
                     </div>
 
                     <div className="flex justify-end space-x-2 mt-4">
-                      <button
-                        onClick={() => handleEdit(item)}
-                        className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg"
-                      >
-                        <Edit size={16} />
-                      </button>
+                      {activeTab !== 'gallery' && (
+                        <button
+                          onClick={() => handleEdit(item)}
+                          className="p-2 text-blue-600 hover:bg-blue-100 rounded-lg"
+                        >
+                          <Edit size={16} />
+                        </button>
+                      )}
                       <button
                         onClick={() => handleDelete(item._id)}
                         className="p-2 text-red-600 hover:bg-red-100 rounded-lg"
@@ -219,23 +257,23 @@ const AdminPanel = () => {
               </div>
             )}
 
-            {!loading && (activeTab === 'committee' ? committees : activeTab === 'news' ? news : families).length === 0 && (
+            {!loading && (activeTab === 'committee' ? committees : activeTab === 'news' ? news : activeTab === 'family' ? families : gallery).length === 0 && (
               <div className="text-center py-12">
                 <div className="text-gray-400 mb-4">
-                  {activeTab === 'committee' ? <Users size={48} /> : activeTab === 'news' ? <Newspaper size={48} /> : <Heart size={48} />}
+                  {activeTab === 'committee' ? <Users size={48} /> : activeTab === 'news' ? <Newspaper size={48} /> : activeTab === 'family' ? <Heart size={48} /> : <Image size={48} />}
                 </div>
                 <h3 className="text-lg font-medium text-gray-900 mb-2">
-                  No {activeTab === 'committee' ? 'committee members' : activeTab === 'news' ? 'news articles' : 'family members'} found
+                  No {activeTab === 'committee' ? 'committee members' : activeTab === 'news' ? 'news articles' : activeTab === 'family' ? 'family members' : 'gallery items'} found
                 </h3>
                 <p className="text-gray-600 mb-4">
-                  Get started by adding your first {activeTab === 'committee' ? 'committee member' : activeTab === 'news' ? 'news article' : 'family member'}.
+                  Get started by adding your first {activeTab === 'committee' ? 'committee member' : activeTab === 'news' ? 'news article' : activeTab === 'family' ? 'family member' : 'gallery item'}.
                 </p>
                 <button
                   onClick={handleAdd}
                   className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
                 >
                   <Plus className="mr-2" size={20} />
-                  Add {activeTab === 'committee' ? 'Committee Member' : activeTab === 'news' ? 'News Article' : 'Family Member'}
+                  Add {activeTab === 'committee' ? 'Committee Member' : activeTab === 'news' ? 'News Article' : activeTab === 'family' ? 'Family Member' : 'Gallery Item'}
                 </button>
               </div>
             )}

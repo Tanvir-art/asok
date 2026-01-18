@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Upload } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import { showToast } from '../utils/toast';
 
 const EditNews = () => {
   const [formData, setFormData] = useState({
@@ -34,7 +36,7 @@ const EditNews = () => {
       setCurrentImage(data.image);
     } catch (error) {
       console.error('Error fetching news:', error);
-      alert('Failed to load news data');
+      showToast.error('Failed to load news data');
     }
   };
 
@@ -58,11 +60,11 @@ const EditNews = () => {
         }
       });
 
-      alert('News updated successfully!');
+      showToast.success('News updated successfully!');
       navigate('/admin');
     } catch (error) {
       console.error('Error updating news:', error);
-      alert('Failed to update news');
+      showToast.error('Failed to update news');
     } finally {
       setLoading(false);
     }
@@ -70,6 +72,7 @@ const EditNews = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
+      <Toaster />
       <div className="max-w-2xl mx-auto px-4">
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center mb-6">

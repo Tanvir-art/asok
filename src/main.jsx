@@ -20,6 +20,7 @@ import AdminLogin from "./pages/AdminLogin";
 import AddCommittee from "./pages/AddCommittee";
 import AddNews from "./pages/AddNews";
 import AddFamily from "./pages/AddFamily";
+import AddGallery from "./pages/AddGallery";
 import EditCommittee from "./pages/EditCommittee";
 import EditNews from "./pages/EditNews";
 import EditFamily from "./pages/EditFamily";
@@ -103,6 +104,10 @@ const router = createBrowserRouter([
   {
     path: "/admin/add-family",
     element: <ProtectedRoute><AddFamily /></ProtectedRoute>,
+  },
+  {
+    path: "/admin/add-gallery",
+    element: <ProtectedRoute><AddGallery /></ProtectedRoute>,
   },
   {
     path: "/admin/edit-committee/:id",

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Upload } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import { showToast } from '../utils/toast';
 
 const EditCommittee = () => {
   const [formData, setFormData] = useState({
@@ -40,7 +42,7 @@ const EditCommittee = () => {
       setCurrentImage(data.image);
     } catch (error) {
       console.error('Error fetching committee:', error);
-      alert('Failed to load committee data');
+      showToast.error('Failed to load committee data');
     }
   };
 
@@ -70,11 +72,11 @@ const EditCommittee = () => {
         }
       });
 
-      alert('Committee member updated successfully!');
+      showToast.success('Committee member updated successfully!');
       navigate('/admin');
     } catch (error) {
       console.error('Error updating committee:', error);
-      alert('Failed to update committee member');
+      showToast.error('Failed to update committee member');
     } finally {
       setLoading(false);
     }
@@ -82,6 +84,7 @@ const EditCommittee = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
+      <Toaster />
       <div className="max-w-2xl mx-auto px-4">
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center mb-6">

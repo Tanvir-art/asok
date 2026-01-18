@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { ArrowLeft, Upload } from 'lucide-react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Toaster } from 'react-hot-toast';
+import { showToast } from '../utils/toast';
 
 const AddCommittee = () => {
   const [formData, setFormData] = useState({
@@ -44,11 +46,11 @@ const AddCommittee = () => {
         }
       });
 
-      alert('Committee member added successfully!');
+      showToast.success('Committee member added successfully!');
       navigate('/admin');
     } catch (error) {
       console.error('Error adding committee:', error);
-      alert('Failed to add committee member');
+      showToast.error('Failed to add committee member');
     } finally {
       setLoading(false);
     }
@@ -56,6 +58,7 @@ const AddCommittee = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 py-8">
+      <Toaster />
       <div className="max-w-2xl mx-auto px-4">
         <div className="bg-white rounded-lg shadow p-6">
           <div className="flex items-center mb-6">
