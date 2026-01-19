@@ -27,6 +27,7 @@ import EditFamily from "./pages/EditFamily";
 import ProtectedRoute from "./Components/ProtectedRoute";
 // import AsokVortiForm from "./Components/MemberForm";
 import AsokMemberForm from "./Components/AsokMemberForm";
+import AdminSignup from "./pages/AdminSignup";
 
 
 const router = createBrowserRouter([
@@ -92,6 +93,10 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: <AdminLogin />,
+  },
+  {
+    path: "/admin/signup",
+    element: <AdminSignup />,
   },
   {
     path: "/admin/add-committee",

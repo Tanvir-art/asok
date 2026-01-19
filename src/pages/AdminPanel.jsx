@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Toaster } from 'react-hot-toast';
 import { showToast } from '../utils/toast';
+import DeleteModal from '../Components/DeleteModal';
 
 const AdminPanel = () => {
   const [activeTab, setActiveTab] = useState('committee');
@@ -12,6 +13,7 @@ const AdminPanel = () => {
   const [families, setFamilies] = useState([]);
   const [gallery, setGallery] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [deleteModal, setDeleteModal] = useState({ isOpen: false, item: null, loading: false });
   const navigate = useNavigate();
 
   const API_BASE = 'http://localhost:4000/api';
@@ -75,35 +77,38 @@ const AdminPanel = () => {
 
   const handleEdit = (item) => {
     if (activeTab === 'committee') {
-      navigate(`/admin/edit-committee/${item._id}`);
+      navigate(`/admin/edit-committee/${item.id}`);
     } else if (activeTab === 'news') {
-      navigate(`/admin/edit-news/${item._id}`);
+      navigate(`/admin/edit-news/${item.id}`);
     } else if (activeTab === 'family') {
-      navigate(`/admin/edit-family/${item._id}`);
+      navigate(`/admin/edit-family/${item.id}`);
     }
   };
 
   const handleDelete = async (id) => {
-    const confirmed = window.confirm(`Are you sure you want to delete this ${activeTab === 'committee' ? 'committee member' : activeTab === 'news' ? 'news article' : activeTab === 'family' ? 'family member' : 'gallery item'}?`);
-    if (!confirmed) return;
+    setDeleteModal({ isOpen: true, item: { id, type: activeTab }, loading: false });
+  };
+
+  const confirmDelete = async () => {
+    const { id, type } = deleteModal.item;
+    setDeleteModal(prev => ({ ...prev, loading: true }));
     
     const loadingToast = showToast.loading('Deleting...');
     
     try {
-      setLoading(true);
-      const endpoint = activeTab === 'committee' ? 'committees' : activeTab === 'news' ? 'news' : activeTab === 'family' ? 'families' : 'gallery';
+      const endpoint = type === 'committee' ? 'committees' : type === 'news' ? 'news' : type === 'family' ? 'families' : 'gallery';
       await axios.delete(`${API_BASE}/${endpoint}/${id}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
       fetchData();
       showToast.dismiss(loadingToast);
-      showToast.success(`${activeTab === 'committee' ? 'Committee member' : activeTab === 'news' ? 'News article' : activeTab === 'family' ? 'Family member' : 'Gallery item'} deleted successfully!`);
+      showToast.success(`${type === 'committee' ? 'Committee member' : type === 'news' ? 'News article' : type === 'family' ? 'Family member' : 'Gallery item'} deleted successfully!`);
+      setDeleteModal({ isOpen: false, item: null, loading: false });
     } catch (error) {
       console.error('Error deleting:', error);
       showToast.dismiss(loadingToast);
       showToast.error('Failed to delete. Please try again.');
-    } finally {
-      setLoading(false);
+      setDeleteModal(prev => ({ ...prev, loading: false }));
     }
   };
 
@@ -195,7 +200,7 @@ const AdminPanel = () => {
             ) : (
               <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                 {(activeTab === 'committee' ? committees : activeTab === 'news' ? news : activeTab === 'family' ? families : gallery).map((item) => (
-                  <div key={item._id} className="bg-gray-50 rounded-lg p-4 hover:shadow-md transition-shadow">
+                  <div key={item.id} className="bg-gray-50 rounded-lg p-4 hover:shadow-md transition-shadow">
                     <div className="aspect-w-16 aspect-h-9 mb-4">
                       {activeTab === 'gallery' && item.type === 'videos' ? (
                         <div className="w-full h-48 bg-gray-200 rounded-lg flex items-center justify-center">
@@ -246,7 +251,7 @@ const AdminPanel = () => {
                         </button>
                       )}
                       <button
-                        onClick={() => handleDelete(item._id)}
+                        onClick={() => handleDelete(item.id)}
                         className="p-2 text-red-600 hover:bg-red-100 rounded-lg"
                       >
                         <Trash2 size={16} />
@@ -280,6 +285,15 @@ const AdminPanel = () => {
           </div>
         </div>
       </div>
+
+      <DeleteModal
+        isOpen={deleteModal.isOpen}
+        onClose={() => setDeleteModal({ isOpen: false, item: null, loading: false })}
+        onConfirm={confirmDelete}
+        loading={deleteModal.loading}
+        title="Confirm Delete"
+        message={`Are you sure you want to delete this ${deleteModal.item?.type === 'committee' ? 'committee member' : deleteModal.item?.type === 'news' ? 'news article' : deleteModal.item?.type === 'family' ? 'family member' : 'gallery item'}? This action cannot be undone.`}
+      />
     </div>
   );
 };

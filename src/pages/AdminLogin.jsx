@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Lock, User } from 'lucide-react';
 import axios from 'axios';
 import AdminPanel from './AdminPanel';
+import { Link } from 'react-router-dom';
 
 const AdminLogin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
@@ -18,10 +19,10 @@ const AdminLogin = () => {
 
     try {
       const response = await axios.post(`${API_BASE}/auth/login`, credentials);
-      console.log('Login response:', response.data);
+      // console.log('Login response:', response.data);
       
       const token = response.data.data?.accessToken || response.data.data?.token || response.data.token;
-      console.log('Token received:', token);
+      // console.log('Token received:', token);
       
       if (token) {
         localStorage.setItem('token', token);
@@ -100,6 +101,15 @@ const AdminLogin = () => {
             {loading ? 'Signing In...' : 'Sign In'}
           </button>
         </form>
+
+        <div className="mt-6 text-center">
+          <p className="text-gray-600">
+            Don't have an account?{' '}
+            <Link to="/admin/signup" className="text-blue-600 hover:text-blue-800 font-medium">
+              Sign up
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
