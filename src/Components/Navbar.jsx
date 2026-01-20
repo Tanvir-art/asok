@@ -51,9 +51,9 @@ export default function Navbar() {
               </Link>
             </div>
               {/* <span>Ain Shohaota Kendra (ASOK) Foundation</span> */}
-            <h1 className="text-white text-lg sm:text-xl font-bold leading-tight">
+            {/* <h1 className="text-white text-lg sm:text-xl font-bold leading-tight">
               Ain Shohaota Kendra (ASOK) Foundation
-            </h1>
+            </h1> */}
           </div>
 
           {/* Desktop Menu */}

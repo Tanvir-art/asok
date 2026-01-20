@@ -18,7 +18,7 @@ const EditFamily = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const API_BASE = 'http://localhost:4000/api';
+  const API_BASE = 'https://asokfoundationbd.com/api';
   const token = localStorage.getItem('token');
 
   useEffect(() => {
@@ -183,7 +183,7 @@ const EditFamily = () => {
                 ) : currentImage ? (
                   <div className="space-y-4">
                     <img
-                      src={`http://localhost:4000/uploads/${currentImage}`}
+                      src={`https://asokfoundationbd.com/uploads/${currentImage}`}
                       alt="Current"
                       className="mx-auto h-48 w-48 object-cover rounded-lg"
                     />

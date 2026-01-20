@@ -14,7 +14,7 @@ export default function NewsSection() {
 
   const fetchNews = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/api/news');
+      const response = await axios.get('https://asokfoundationbd.com/api/news');
       setNews(response.data.data);
     } catch (error) {
       console.error('Error fetching news:', error);
@@ -58,7 +58,7 @@ export default function NewsSection() {
               {/* Image */}
               <div className="overflow-hidden">
                 <img
-                  src={`http://localhost:4000/${item.image}`}
+                  src={`https://asokfoundationbd.com/${item.image}`}
                   alt={item.title}
                   className="h-52 w-full object-cover group-hover:scale-105 transition duration-500"
                 />

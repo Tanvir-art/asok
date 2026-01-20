@@ -23,7 +23,7 @@ const AdminSignup = () => {
     setSuccess('');
 
     try {
-      const response = await axios.post('http://localhost:4000/api/auth/signup', formData);
+      const response = await axios.post('https://asokfoundationbd.com/api/auth/signup', formData);
       setSuccess('Account created successfully!');
       setFormData({ name: '', email: '', password: '', phone: '', address: '' });
       Navigate('/admin');

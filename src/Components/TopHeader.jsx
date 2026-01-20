@@ -15,12 +15,12 @@ const TopHeader = () => {
                             <img src={bd_logo} alt="BD Logo" className="w-full h-full object-cover" />
                         </div>
                     </div>
-                    
+
                     <div className="text-center">
-                        <p className="text-sm font-bold text-blue-800">আন্তর্জাতিক মানবাধিকার সংস্থা</p>
+                        <p className="text-sm lg:text-lg font-bold text-red-800">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার অনুমোদিত</p>
                         <h1 className="text-lg font-extrabold text-blue-900 mt-1">আইন সহায়তা কেন্দ্র(আসক) ফাউন্ডেশন</h1>
-                        <p className="text-sm font-semibold text-blue-700 mt-1">International Human Rights</p>
-                        <h2 className="text-base font-bold text-sky-700 mt-1">Ain Shohaota Kendra(ASOK) Foundation</h2>
+                        <p className="text-sm lg:text-lg font-bold text-red-800">জাতিসংঘ ঘোষিত মানবাধিকার বাস্তবায়নে সচেষ্ট</p>
+                        <h2 className="text-base font-bold text-sky-700 mt-1">AIN SHOHAOTA KENDRA (ASOK) FOUNDATION</h2>
                         <p className="text-xs text-gray-700 mt-1">Approved by the Govt. of the People's Re-public of Bangladesh</p>
                         <div className="flex flex-col space-y-2 mt-2">
                             <span className="bg-red-600 text-white text-xs font-bold px-3 py-1 rounded">Gov. Reg No. - SSO 3576/1996</span>
@@ -38,11 +38,12 @@ const TopHeader = () => {
 
                     {/* Center Content */}
                     <div className="text-center px-4 flex-1">
-                        <p className="text-sm lg:text-lg font-bold text-blue-800">আন্তর্জাতিক মানবাধিকার সংস্থা</p>
+                        <p className="text-sm lg:text-lg font-bold text-red-800">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার অনুমোদিত</p>
                         <h1 className="text-xl lg:text-3xl xl:text-4xl font-extrabold text-blue-900 mt-1">আইন সহায়তা কেন্দ্র(আসক) ফাউন্ডেশন</h1>
-                        <p className="text-sm lg:text-lg font-semibold text-blue-700 mt-2">International Human Rights</p>
-                        <h2 className="text-base lg:text-xl xl:text-2xl font-bold text-sky-700 mt-1">Ain Shohaota Kendra(ASOK) Foundation</h2>
-                        <p className="text-xs lg:text-sm text-gray-700 mt-2">Approved by the Govt. of the People's Re-public of Bangladesh</p>
+                        <h2 className="text-base lg:text-xl xl:text-2xl font-bold text-sky-700 mt-1">AIN SHOHAOTA KENDRA (ASOK) FOUNDATION</h2>
+                        <p className="text-sm lg:text-lg font-bold text-red-800">জাতিসংঘ ঘোষিত মানবাধিকার বাস্তবায়নে সচেষ্ট</p>
+                        <p className="text-sm lg:text-lg font-bold text-green-700">আন্তর্জাতিক মানবাধিকার সংস্থা</p>
+                        {/* <p className="text-xs lg:text-sm text-gray-700 mt-2">Approved by the Govt. of the People's Re-public of Bangladesh</p> */}
                         <div className="flex flex-wrap justify-center gap-2 mt-3">
                             <span className="bg-red-600 text-white text-xs lg:text-sm font-bold px-3 lg:px-4 py-1 rounded">Gov. Reg No. - SSO 3576/1996</span>
                             <span className="bg-red-600 text-white text-xs lg:text-sm font-bold px-3 lg:px-4 py-1 rounded">Gov. Reg No. - S-9417/2009</span>

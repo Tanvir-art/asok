@@ -8,7 +8,7 @@ export default function Gallery() {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const API_BASE = 'http://localhost:4000/api';
+  const API_BASE = 'https://asokfoundationbd.com/api';
 
   useEffect(() => {
     fetchGalleryData();
@@ -88,7 +88,7 @@ export default function Gallery() {
               {photos.map((photo) => (
                 <div key={photo._id} className="group">
                   <img
-                    src={`http://localhost:4000/${photo.image}`}
+                    src={`https://asokfoundationbd.com/${photo.image}`}
                     alt={photo.title}
                     className="rounded-xl shadow hover:shadow-lg transition cursor-pointer object-cover h-48 w-full"
                   />

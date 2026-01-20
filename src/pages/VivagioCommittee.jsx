@@ -11,7 +11,7 @@ function MemberCard({ m }) {
       {/* IMAGE */}
       <div className="relative overflow-hidden">
         <img
-          src={`http://localhost:4000/${m.image}`}
+          src={`https://asokfoundationbd.com/${m.image}`}
           alt={m.name}
           className="w-full h-56 object-cover group-hover:scale-110 transition duration-500"
         />
@@ -47,7 +47,7 @@ export default function VivagioCommittee() {
 
   const fetchCommittees = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/api/committees?type=vivag');
+      const response = await axios.get('https://asokfoundationbd.com/api/committees?type=vivag');
       setCommittees(response.data.data);
       
       // Extract unique divisions

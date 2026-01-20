@@ -15,7 +15,7 @@ export default function NewsDetails() {
 
   const fetchNewsDetails = async () => {
     try {
-      const response = await axios.get(`http://localhost:4000/api/news/${id}`);
+      const response = await axios.get(`https://asokfoundationbd.com/api/news/${id}`);
       setNews(response.data.data);
     } catch (error) {
       console.error('Error fetching news details:', error);
@@ -65,7 +65,7 @@ export default function NewsDetails() {
           {/* Featured Image */}
           <div className="relative h-96 overflow-hidden">
             <img
-              src={`http://localhost:4000/${news.image}`}
+              src={`https://asokfoundationbd.com/${news.image}`}
               alt={news.title}
               className="w-full h-full object-cover"
             />

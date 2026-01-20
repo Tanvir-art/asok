@@ -11,7 +11,7 @@ function MemberCard({ m }) {
     <div className="bg-white rounded-xl shadow overflow-hidden hover:shadow-lg transition h-fit">
       {/* IMAGE */}
       <img
-        src={`http://localhost:4000/${m.image}`}
+        src={`https://asokfoundationbd.com/${m.image}`}
         alt={m.name}
         className="w-full h-56 object-cover"
       />
@@ -44,7 +44,7 @@ export default function DistrictCommittee() {
 
   const fetchCommittees = async () => {
     try {
-      const response = await axios.get('http://localhost:4000/api/committees?type=jela');
+      const response = await axios.get('https://asokfoundationbd.com/api/committees?type=jela');
       setCommittees(response.data.data);
       setFilteredCommittees(response.data.data);
     } catch (error) {

@@ -32,7 +32,7 @@ export default function Footer() {
             <li>📞 01932276749</li>
             <li>✉️ asokfoundation@gmail.com</li>
             <li>✉️ shandhabani@gmail.com</li>
-            <li>🌐 www.asokfoundation.org</li>
+            <li>🌐 https://asokfoundationbd.com/</li>
           </ul>
         </div>
 

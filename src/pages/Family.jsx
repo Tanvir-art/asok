@@ -8,7 +8,7 @@ export default function Family() {
   useEffect(() => {
     const fetchFamilyMembers = async () => {
       try {
-        const response = await axios.get('http://localhost:4000/api/families');
+        const response = await axios.get('https://asokfoundationbd.com/api/families');
         setFamilyMembers(response.data.data);
       } catch (error) {
         console.error('Error fetching family members:', error);
@@ -40,7 +40,7 @@ export default function Family() {
             className="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden text-center"
           >
             <img
-              src={`http://localhost:4000/${member.image}`}
+              src={`https://asokfoundationbd.com/${member.image}`}
               alt={member.name}
               className="w-full h-56 object-cover"
             />
