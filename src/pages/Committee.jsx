@@ -117,17 +117,26 @@ export default function Committee() {
           </div>
         </div>
 
-      
+
 
 
         <aside className="lg:col-span-4 space-y-6 sticky top-24 h-fit">
           {/* Chairman */}
           <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4">
-            <img
+            {/* <img
               src={chairManImage}
               alt="Chairman"
               className="w-full rounded-lg object-cover"
-            />
+            /> */}
+
+            <div className="w-64 h-64 overflow-hidden">
+              <img
+                src={chairManImage}
+                alt="Chairman"
+                className="w-64 h-64 aspect-square rounded-full object-cover"
+              />
+            </div>
+
 
             <button className="w-full mt-4 bg-red-500 hover:bg-red-600 text-white py-2 rounded-md font-semibold transition">
               চেয়ারম্যান
@@ -145,11 +154,19 @@ export default function Committee() {
 
           {/* Founder */}
           <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4">
-            <img
+            {/* <img
               src={founder}
               alt="Founder"
               className="w-full rounded-lg object-cover"
-            />
+            /> */}
+
+            <div className="w-64 h-64 overflow-hidden">
+              <img
+                src={founder}
+                alt="Founder"
+                className="w-64 h-64 aspect-square rounded-full object-cover"
+              />
+            </div>
 
             <button className="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md font-semibold transition">
               প্রতিষ্ঠাতা
@@ -167,11 +184,13 @@ export default function Committee() {
 
           {/* Executive Director */}
           <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4">
-            <img
-              src={ceo}
-              alt="Executive Director"
-              className="w-full rounded-lg object-cover"
-            />
+            <div className="w-64 h-64 overflow-hidden">
+              <img
+                src={ceo}
+                alt="Executive Director"
+                className="w-64 h-64 aspect-square rounded-full object-cover"
+              />
+            </div>
 
             <button className="w-full mt-4 bg-green-500 hover:bg-green-600 text-white py-2 rounded-md font-semibold transition">
               নির্বাহী পরিচালক

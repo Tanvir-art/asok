@@ -9,32 +9,32 @@ import ceo from "../assets/nazmun.jpeg";
 export default function Home() {
 
   const notices = [
-  {
-    no: "২৯",
-    title:
-      "জাতীয় আইনগত সহায়তা দিবস-২৮ এপ্রিল ২০২৫ উপলক্ষে ঘোষণা প্রেস বিজ্ঞপ্তি",
-  },
-  {
-    no: "৩০",
-    title:
-      "গ্রাম আদালত ও ইউনিয়ন লিগ্যাল এইড কমিটি সক্রিয়করণ সংক্রান্ত কর্মশালা",
-  },
-  {
-    no: "৩৬",
-    title:
-      "বাংলাদেশে ভ্রমণে আগ্রহী আফগান-মালয়েশিয়ান নাগরিকদের বিজ্ঞপ্তি",
-  },
-  {
-    no: "৫৫",
-    title:
-      "অমর একুশে ফেব্রুয়ারি-২০২৫ উপলক্ষে অফিস আদেশ",
-  },
-  {
-    no: "৫৪",
-    title:
-      "জাতীয় আইনগত সহায়তা প্রদান সংস্থা কর্তৃক বিশেষ বিজ্ঞপ্তি",
-  },
-];
+    {
+      no: "২৯",
+      title:
+        "জাতীয় আইনগত সহায়তা দিবস-২৮ এপ্রিল ২০২৫ উপলক্ষে ঘোষণা প্রেস বিজ্ঞপ্তি",
+    },
+    {
+      no: "৩০",
+      title:
+        "গ্রাম আদালত ও ইউনিয়ন লিগ্যাল এইড কমিটি সক্রিয়করণ সংক্রান্ত কর্মশালা",
+    },
+    {
+      no: "৩৬",
+      title:
+        "বাংলাদেশে ভ্রমণে আগ্রহী আফগান-মালয়েশিয়ান নাগরিকদের বিজ্ঞপ্তি",
+    },
+    {
+      no: "৫৫",
+      title:
+        "অমর একুশে ফেব্রুয়ারি-২০২৫ উপলক্ষে অফিস আদেশ",
+    },
+    {
+      no: "৫৪",
+      title:
+        "জাতীয় আইনগত সহায়তা প্রদান সংস্থা কর্তৃক বিশেষ বিজ্ঞপ্তি",
+    },
+  ];
 
 
 
@@ -97,11 +97,20 @@ export default function Home() {
         <aside className=" h-fit space-y-6">
           {/* Chairman */}
           <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4">
-            <img
+            {/* <img
               src={chairManImage}
               alt="Chairman"
-              className="w-full rounded-lg object-cover"
-            />
+              className="w-full aspect-square rounded-full object-cover"
+            /> */}
+
+            <div className="w-64 h-64 overflow-hidden">
+              <img
+                src={chairManImage}
+                alt="Chairman"
+                className="w-64 h-64 aspect-square rounded-full object-cover"
+              />
+            </div>
+
 
             <button className="w-full mt-4 bg-red-500 hover:bg-red-600 text-white py-2 rounded-md font-semibold transition">
               চেয়ারম্যান
@@ -119,11 +128,19 @@ export default function Home() {
 
           {/* Founder */}
           <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4">
-            <img
+            {/* <img
               src={founder}
               alt="Founder"
-              className="w-full rounded-lg object-cover"
-            />
+              className="w-full aspect-square rounded-full object-cover"
+            /> */}
+
+            <div className="w-64 h-64 overflow-hidden">
+              <img
+                src={founder}
+                alt="Founder"
+                className="w-64 h-64 aspect-square rounded-full object-cover"
+              />
+            </div>
 
             <button className="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md font-semibold transition">
               প্রতিষ্ঠাতা
@@ -141,11 +158,19 @@ export default function Home() {
 
           {/* Executive Director */}
           <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4">
-            <img
+            {/* <img
               src={ceo}
               alt="Executive Director"
-              className="w-full rounded-lg object-cover"
-            />
+              className="w-full aspect-square rounded-full object-cover"
+            /> */}
+
+            <div className="w-64 h-64 overflow-hidden">
+              <img
+                src={ceo}
+                alt="Executive Director"
+                className="w-64 h-64 aspect-square rounded-full object-cover"
+              />
+            </div>
 
             <button className="w-full mt-4 bg-green-500 hover:bg-green-600 text-white py-2 rounded-md font-semibold transition">
               নির্বাহী পরিচালক

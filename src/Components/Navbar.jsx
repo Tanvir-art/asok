@@ -62,7 +62,7 @@ export default function Navbar() {
             <NavLink to="/news" className={navLinkClass}>আসক নিউজ</NavLink>
             <NavLink to="/committee" className={navLinkClass}>কমিটি</NavLink>
             <NavLink to="/documents" className={navLinkClass}>তথ্য পত্র</NavLink>
-            <NavLink to="/governance" className={navLinkClass}>গঠনন্তু</NavLink>
+            <NavLink to="/governance" className={navLinkClass}>গঠনতন্ত্র</NavLink>
             <NavLink to="/membership" className={navLinkClass}>সদস্য ফর্ম</NavLink>
             <NavLink to="/family" className={navLinkClass}>পরিবার</NavLink>
             <NavLink to="/gallery" className={navLinkClass}>ছবি ও ভিডিও</NavLink>
@@ -105,7 +105,7 @@ export default function Navbar() {
             <NavLink to="/news" onClick={() => setOpen(false)} className={navLinkClass}>আসক নিউজ</NavLink>
             <NavLink to="/committee" onClick={() => setOpen(false)} className={navLinkClass}>কমিটি</NavLink>
             <NavLink to="/documents" onClick={() => setOpen(false)} className={navLinkClass}>তথ্য পত্র</NavLink>
-            <NavLink to="/governance" onClick={() => setOpen(false)} className={navLinkClass}>গঠনন্তু</NavLink>
+            <NavLink to="/governance" onClick={() => setOpen(false)} className={navLinkClass}>গঠনতন্ত্র</NavLink>
             <NavLink to="/membership" onClick={() => setOpen(false)} className={navLinkClass}>সদস্য ফর্ম</NavLink>
             <NavLink to="/family" onClick={() => setOpen(false)} className={navLinkClass}>পরিবার</NavLink>
             <NavLink to="/gallery" onClick={() => setOpen(false)} className={navLinkClass}>ছবি ও ভিডিও</NavLink>

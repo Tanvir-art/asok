@@ -15,7 +15,7 @@ export default function Footer() {
           </div>
 
           <p className="text-sm leading-6 text-blue-100">
-            <strong>Dhaka Office</strong><br />
+            <strong>Head Office</strong><br />
             Mouchak Center Point Shopping Mall<br />
             92, Circular Road, Siddeshwari, Dhaka<br />
             Room No: 42,43 (4th Floor, Lift-3)
