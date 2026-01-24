@@ -4,7 +4,7 @@ import bd_logo from "../assets/bd_logo.png";
 const TopHeader = () => {
     return (
         <div className="w-full bg-gradient-to-b from-sky-100 to-white py-4 md:py-6 px-4">
-            <div className="max-w-7xl mx-auto">
+            <div className="w-full mx-auto ">
                 {/* Mobile Layout */}
                 <div className="md:hidden flex flex-col items-center space-y-4">
                     <div className="flex items-center justify-center space-x-4">

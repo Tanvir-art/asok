@@ -8,7 +8,7 @@ export default function Family() {
   useEffect(() => {
     const fetchFamilyMembers = async () => {
       try {
-        const response = await axios.get('https://asokfoundationbd.com/api/families');
+        const response = await axios.get('https://asokfoundationbd.com/backend/api/families');
         setFamilyMembers(response.data.data);
       } catch (error) {
         console.error('Error fetching family members:', error);

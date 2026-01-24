@@ -95,19 +95,48 @@ export default function Home() {
 
         {/* Right Sidebar */}
         <aside className=" h-fit space-y-6">
-          {/* Chairman */}
+ 
+
+          {/* Founder */}
           <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4">
             {/* <img
-              src={chairManImage}
-              alt="Chairman"
+              src={founder}
+              alt="Founder"
               className="w-full aspect-square rounded-full object-cover"
             /> */}
 
-            <div className="w-64 h-64 overflow-hidden">
+            <div className="w-64 h-64 rounded-full overflow-hidden border-4 border-blue-500">
+              <img
+                src={founder}
+                alt="Founder"
+                className="w-full h-full object-cover object-top"
+              />
+            </div>
+
+ 
+            <button className="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md font-semibold transition">
+              প্রতিষ্ঠাতা
+            </button>
+
+            <h3 className="mt-4 text-center font-bold text-lg text-gray-800">
+              মোঃ শামসুল হক
+            </h3>
+
+            <p className="text-center text-sm text-gray-600 mt-1">
+              প্রতিষ্ঠাতা <br />
+              আইন সহায়তা কেন্দ্র (আসক) ফাউন্ডেশন
+            </p>
+          </div>
+
+
+                    {/* Chairman */}
+          <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4">
+  
+            <div className="w-56 h-56 rounded-full overflow-hidden border-4 border-blue-500">
               <img
                 src={chairManImage}
                 alt="Chairman"
-                className="w-64 h-64 aspect-square rounded-full object-cover"
+                className="w-full h-full object-cover object-[50%_-10px]"
               />
             </div>
 
@@ -126,36 +155,6 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Founder */}
-          <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4">
-            {/* <img
-              src={founder}
-              alt="Founder"
-              className="w-full aspect-square rounded-full object-cover"
-            /> */}
-
-            <div className="w-64 h-64 overflow-hidden">
-              <img
-                src={founder}
-                alt="Founder"
-                className="w-64 h-64 aspect-square rounded-full object-cover"
-              />
-            </div>
-
-            <button className="w-full mt-4 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-md font-semibold transition">
-              প্রতিষ্ঠাতা
-            </button>
-
-            <h3 className="mt-4 text-center font-bold text-lg text-gray-800">
-              মোঃ শামসুল হক
-            </h3>
-
-            <p className="text-center text-sm text-gray-600 mt-1">
-              প্রতিষ্ঠাতা <br />
-              আইন সহায়তা কেন্দ্র (আসক) ফাউন্ডেশন
-            </p>
-          </div>
-
           {/* Executive Director */}
           <div className="flex flex-col items-center bg-white rounded-xl shadow-md p-4">
             {/* <img
@@ -164,11 +163,11 @@ export default function Home() {
               className="w-full aspect-square rounded-full object-cover"
             /> */}
 
-            <div className="w-64 h-64 overflow-hidden">
+            <div className="w-64 h-64 rounded-full overflow-hidden border-4 border-blue-500">
               <img
                 src={ceo}
                 alt="Executive Director"
-                className="w-64 h-64 aspect-square rounded-full object-cover"
+                className="w-full h-full object-cover object-top"
               />
             </div>
 

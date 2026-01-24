@@ -10,7 +10,7 @@ const AdminLogin = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const API_BASE = 'https://asokfoundationbd.com/api';
+  const API_BASE = 'https://asokfoundationbd.com/backend/api';
 
   const handleLogin = async (e) => {
     e.preventDefault();

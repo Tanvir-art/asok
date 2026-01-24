@@ -19,7 +19,7 @@ const EditCommittee = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const API_BASE = 'https://asokfoundationbd.com/api';
+  const API_BASE = 'https://asokfoundationbd.com/backend/api';
   const token = localStorage.getItem('token');
 
   useEffect(() => {

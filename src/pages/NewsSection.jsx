@@ -14,7 +14,7 @@ export default function NewsSection() {
 
   const fetchNews = async () => {
     try {
-      const response = await axios.get('https://asokfoundationbd.com/api/news');
+      const response = await axios.get('https://asokfoundationbd.com/backend/api/news');
       setNews(response.data.data);
     } catch (error) {
       console.error('Error fetching news:', error);

@@ -14,7 +14,7 @@ const AddNews = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const API_BASE = 'https://asokfoundationbd.com/api';
+  const API_BASE = 'https://asokfoundationbd.com/backend/api';
   const token = localStorage.getItem('token');
 
   const handleSubmit = async (e) => {
